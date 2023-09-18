@@ -1,0 +1,17 @@
+{
+  "name": "migaku_to_anki_morph_converter",
+  "productName": "Migaku to Anki Morph Converter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^26.2.1",
+    "toastify-js": "^1.12.0"
+  }
+}

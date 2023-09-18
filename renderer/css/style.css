@@ -1,0 +1,64 @@
+:root {
+  /* Colors */
+  --primary-white-color: rgb(27, 29, 42);
+  --default-body-color: rgb(12, 15, 29);
+  --default-hover-background-color: rgb(52, 55, 70);
+  --text-color: rgb(206, 207, 209);
+  --hover-color: 101, 126, 248;
+  --color-overlay: 32, 20, 20;
+
+  /* Button */
+  --primary-button-color: rgb(16, 96, 255);
+  --button-hover-color: rgb(53, 119, 255);
+  --button-hover-color-red: rgb(232, 93, 117);
+
+  /* Vars */
+  --border-radius: 1.2rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+code,
+kbd,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+html {
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  color: var(--text-color);
+  background-color: var(--default-body-color);
+  font-size: 1.2rem;
+  height: 100%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+a {
+  display: block;
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.main-container {
+  height: 100%;
+  padding: 0px 100px;
+  margin: 3rem auto 0px;
+}
