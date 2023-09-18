@@ -62,3 +62,7 @@ a {
   padding: 0px 100px;
   margin: 3rem auto 0px;
 }
+
+.main-container .file-container {
+  background-color: var(--primary-white-color);
+}
