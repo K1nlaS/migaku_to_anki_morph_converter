@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
   <script src="js/renderer.js" defer></script>
+  <script src="js/anki.handler.js" defer></script>
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/style.css">
   <title>Migaku JSON Converter</title>
@@ -32,6 +33,15 @@
       <input type="button" id="crosscheck" value="Start">
     </div>
 
+  </div>
+
+  <div class="container text-center">
+    <select id="deckSelect" class="form-select" aria-label="Deck Select"></select>
+    <select id="modelSelect" class="form-select" aria-label="Model Select"></select>
+    <select id="fieldSelect" class="form-select" aria-label="Field Select"></select>
+
+    <input type="button" id="anki" value="Get Decks">
+    <input type="button" id="addCards" value="Display">
   </div>
 
   </div>

@@ -2,6 +2,8 @@ const migaku = document.querySelector("#migaku");
 const data = document.querySelector("#data");
 const crosscheck = document.querySelector("#crosscheck");
 
+
+let filteredArray = null;
 let migakuFile = null;
 let dataFile = null;
 
@@ -106,9 +108,18 @@ const crossCheck = async () => {
   const formattedMigaku = await formatMigaku(migakuFile);
   const formattedDataFile = await formatDataFile(dataFile);
 
-  console.log(formattedDataFile);
+  const stringSet = new Set(formattedDataFile);
 
+  // Filter the arrayOfArrays to keep only elements that don't match any word in arrayOfStrings
+  const returnFilteredArray = formattedMigaku.filter((wordArray) => {
+    // Check if any word in wordArray is in the stringSet
+    return !wordArray.some((word) => stringSet.has(word));
+  });
+
+  filteredArray = returnFilteredArray;
 };
+
+
 
 
 migaku.addEventListener("change", loadMigakuFile);
