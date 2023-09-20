@@ -91,7 +91,13 @@ const formatDataFile = (file) => {
           cleanedWords.push(word);
         }
 
-        resolve(cleanedWords);
+        // Check if the cleanedWords array contains only strings
+        if (cleanedWords.every((item) => typeof item === "string")) {
+          resolve(cleanedWords);
+        } else {
+          reject(new Error("Array must contain only strings."));
+        }
+
       } catch (error) {
         reject(error);
       }

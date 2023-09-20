@@ -2,6 +2,9 @@ const anki = document.querySelector("#anki");
 const modelSelect = document.getElementById('modelSelect');
 const fieldSelect = document.getElementById('fieldSelect');
 const addCards = document.querySelector("#addCards");
+const test = document.querySelector("#test");
+
+const MAX_STRING_LENGTH = 1024; // Maximum string length
 
 const ankiConnectInvoke = async (action, version, params = {}) => {
   return new Promise((resolve, reject) => {
@@ -75,6 +78,54 @@ const getFields = async (e) => {
 
 };
 
+const splitStringIntoChunks = (inputString) => {
+  const chunks = [];
+  for (let i = 0; i < inputString.length; i += MAX_STRING_LENGTH) {
+    chunks.push(inputString.slice(i, i + MAX_STRING_LENGTH));
+  }
+  return chunks;
+};
+
+const cardsDuplicateSearch = async (selectedDeck, selectedField) => {
+  try {
+    const alreadyInIdsParams = {
+      "query": '"deck:' + selectedDeck.value.toString() + '"'
+    };
+
+    const alreadyInIds = await ankiConnectInvoke("findNotes", 5, alreadyInIdsParams);
+
+    const alreadyInCardsParams = {
+      "notes": alreadyInIds
+    };
+    const alreadyInCards = await ankiConnectInvoke("notesInfo", 5, alreadyInCardsParams);
+
+    const formattedAlreadyInCards = alreadyInCards.map(card => card.fields[selectedField.value].value);
+
+    // Function to split Japanese text into words
+    function splitJapaneseText(text) {
+      return text.split(/[\s。、]+/).filter(word => word.length > 0);
+    }
+
+    // Convert formattedAlreadyInCards to a set of unique words
+    const uniqueWordsArray = new Set();
+    for (const element of formattedAlreadyInCards) {
+      const words = splitJapaneseText(element);
+      words.forEach(word => uniqueWordsArray.add(word));
+    }
+
+    // Filter filteredArray to remove elements that contain words from formattedAlreadyInCards
+    const filteredFinalArray = filteredArray.filter(([element]) => {
+      const words = splitJapaneseText(element);
+      return !words.some(word => uniqueWordsArray.has(word));
+    });
+
+    return filteredFinalArray;
+  } catch (error) {
+    console.error("An error occurred:", error);
+    throw error; // Re-throw the error to handle it at the calling site if needed.
+  }
+};
+
 const addUnknownWords = async () => {
   const selectedDeck = deckSelect.options[deckSelect.selectedIndex];
   const selectedModel = modelSelect.options[modelSelect.selectedIndex];
@@ -85,36 +136,49 @@ const addUnknownWords = async () => {
     return;
   }
 
+  // Removing words that are already in the deck.
+  const finalFilteredArray = await cardsDuplicateSearch(selectedDeck, selectedField);
+
   // Extract the first elements and join them with "。"
-  const kanjiString = filteredArray.map(subArray => subArray[0]).join('。 ');
+  const kanjiString = finalFilteredArray.map(subArray => subArray[0]).join('。 ');
+  const kanjiChunks = splitStringIntoChunks(kanjiString);
 
   // Extract the second elements and join them with "。"
-  const hiraganaString = filteredArray.map(subArray => subArray[1]).join('。 ');
+  const hiraganaString = finalFilteredArray.map(subArray => subArray[1]).join('。 ');
+  const hiraganaChunks = splitStringIntoChunks(hiraganaString);
 
-
-  const kanjiParams = {
+  // Create separate arrays for kanji and hiragana strings
+  const kanjiParamsArray = kanjiChunks.map((chunk) => ({
     "note": {
       "deckName": selectedDeck.value.toString(),
       "modelName": selectedModel.value.toString(),
       "fields": {
-        [selectedField.value.toString()]: kanjiString.toString(),
+        [selectedField.value.toString()]: chunk.toString(),
       },
-    }
-  };
+    },
+  }));
 
-  const hiraganaParams = {
+  const hiraganaParamsArray = hiraganaChunks.map((chunk) => ({
     "note": {
       "deckName": selectedDeck.value.toString(),
       "modelName": selectedModel.value.toString(),
       "fields": {
-        [selectedField.value.toString()]: hiraganaString.toString(),
+        [selectedField.value.toString()]: chunk.toString(),
       },
-    }
-  };
+    },
+  }));
 
   try {
-    await ankiConnectInvoke('addNote', 5, kanjiParams);
-    await ankiConnectInvoke('addNote', 5, hiraganaParams);
+    // Loop through the arrays and make AnkiConnect calls
+    for (const kanjiParams of kanjiParamsArray) {
+      await ankiConnectInvoke('addNote', 5, kanjiParams);
+    }
+
+    for (const hiraganaParams of hiraganaParamsArray) {
+      await ankiConnectInvoke('addNote', 5, hiraganaParams);
+    }
+
+    console.log("Success");
   } catch (error) {
     console.error('An error occurred:', error);
   }
