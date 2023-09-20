@@ -2,7 +2,6 @@ const anki = document.querySelector("#anki");
 const modelSelect = document.getElementById('modelSelect');
 const fieldSelect = document.getElementById('fieldSelect');
 const addCards = document.querySelector("#addCards");
-const test = document.querySelector("#test");
 
 const MAX_STRING_LENGTH = 1024; // Maximum string length
 
