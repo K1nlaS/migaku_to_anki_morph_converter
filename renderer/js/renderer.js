@@ -34,10 +34,12 @@ const formatMigaku = (file) => {
         const jsonArray = JSON.parse(e.target.result);
 
         // Process each item in the array
-        const formattedArray = jsonArray.map((item) => {
-          const [before, after] = item[0].split("◴");
-          return [before, after];
-        });
+        const formattedArray = jsonArray
+          .filter((item) => item[1] === 2) // Filter by the number at the end being 2, which stands for Known words
+          .map((item) => {
+            const [before, after] = item[0].split("◴");
+            return [before, after];
+          });
 
         resolve(formattedArray);
       } catch (error) {
@@ -81,8 +83,8 @@ const formatDataFile = (file) => {
         // Initialize an array to store the cleaned words
         const cleanedWords = [];
 
-        // Loop through the lines starting from the second line (index 1)
-        for (let i = 1; i < lines.length; i++) {
+        // Loop through the lines starting from the second line
+        for (let i = 0; i < lines.length; i++) {
           const line = lines[i].trim(); // Remove leading/trailing whitespace
 
           // Split the line by "-" and keep only the first part
@@ -121,7 +123,7 @@ const crossCheck = async () => {
     // Check if any word in wordArray is in the stringSet
     return !wordArray.some((word) => stringSet.has(word));
   });
-
+  console.log("Filtered Deck completed:", returnFilteredArray);
   filteredArray = returnFilteredArray;
 };
 

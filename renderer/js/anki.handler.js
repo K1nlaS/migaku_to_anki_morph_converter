@@ -57,6 +57,16 @@ const getDecks = async () => {
       modelSelect.add(option);
     });
 
+
+    const selectedModel = modelSelect.options[modelSelect.selectedIndex];
+    const fields = await ankiConnectInvoke('modelFieldNames', 5, { "modelName": selectedModel.value });
+
+    fields.forEach(fieldName => {
+      const option = document.createElement('option');
+      option.text = fieldName;
+      fieldSelect.add(option);
+    });
+
   } catch (e) {
     console.log(`error getting decks: ${e}`);
   }
@@ -69,9 +79,9 @@ const getFields = async (e) => {
   fieldSelect.innerHTML = '';
 
   //Populate the dropdown with deck names
-  fields.forEach(deckName => {
+  fields.forEach(fieldName => {
     const option = document.createElement('option');
-    option.text = deckName;
+    option.text = fieldName;
     fieldSelect.add(option);
   });
 
@@ -118,6 +128,7 @@ const cardsDuplicateSearch = async (selectedDeck, selectedField) => {
       return !words.some(word => uniqueWordsArray.has(word));
     });
 
+    console.log("Final Filtered Deck completed:", filteredFinalArray);
     return filteredFinalArray;
   } catch (error) {
     console.error("An error occurred:", error);
