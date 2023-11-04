@@ -6,9 +6,9 @@ const isDev = process.env.NODE_ENV !== "development";
 
 const createMainWindow = () => {
   const mainWindow = new BrowserWindow({
-    title: "Migaku JSON Converter",
-    width: isDev ? 1600 : 500,
-    height: isDev ? 900 : 600,
+    title: "Migaku JSON to AnkiCards Converter",
+    width: isDev ? 1600 : 800,
+    height: isDev ? 900 : 500,
   });
 
   // Open devtools if in dev env
