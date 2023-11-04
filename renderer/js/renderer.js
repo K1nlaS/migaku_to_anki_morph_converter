@@ -12,7 +12,7 @@ const loadMigakuFile = (e) => {
   const file = e.target.files[0];
 
   if (!checkMigakuFile(file)) {
-    console.log("Please upload a .json file");
+    showError("Please upload a .json file");
     return;
   }
 
@@ -47,6 +47,10 @@ const formatMigaku = (file) => {
       }
     };
 
+    if (!reader.result) {
+      showError("Please upload both Migaku JSON and morph's txt files.");
+    }
+
     reader.readAsText(file);
   });
 };
@@ -56,7 +60,7 @@ const loadDataFile = (e) => {
   const file = e.target.files[0];
 
   if (!checkDataFile(file)) {
-    console.log("Please upload a .txt file");
+    showError("Please upload a .txt file");
     return;
   }
 
@@ -97,6 +101,7 @@ const formatDataFile = (file) => {
         if (cleanedWords.every((item) => typeof item === "string")) {
           resolve(cleanedWords);
         } else {
+          showError("Array must contain only strings.");
           reject(new Error("Array must contain only strings."));
         }
 
@@ -104,6 +109,10 @@ const formatDataFile = (file) => {
         reject(error);
       }
     };
+
+    if (!reader.result) {
+      showError("Please upload both Migaku JSON and morph's txt files.");
+    }
 
     reader.readAsText(file);
 
@@ -123,12 +132,26 @@ const crossCheck = async () => {
     // Check if any word in wordArray is in the stringSet
     return !wordArray.some((word) => stringSet.has(word));
   });
-  console.log("Filtered Deck completed:", returnFilteredArray);
+  showSuccess("Filtering Completed: " + returnFilteredArray.length + " morph's filtered.");
   filteredArray = returnFilteredArray;
 };
 
+// SweetAlert2 functions
+const showError = (message) => {
+  Swal.fire({
+    icon: 'error',
+    title: 'Error',
+    text: message,
+  });
+};
 
-
+const showSuccess = (message) => {
+  Swal.fire({
+    icon: 'success',
+    title: 'Success',
+    text: message,
+  });
+};
 
 migaku.addEventListener("change", loadMigakuFile);
 data.addEventListener("change", loadDataFile);

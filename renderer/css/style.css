@@ -4,8 +4,9 @@
   --default-body-color: rgb(12, 15, 29);
   --default-hover-background-color: rgb(52, 55, 70);
   --text-color: rgb(206, 207, 209);
-  --hover-color: 101, 126, 248;
-  --color-overlay: 32, 20, 20;
+  --hover-color: rgb(101, 126, 248);
+  --color-overlay: rgb(32, 20, 20);
+  --success: rgb(3, 151, 77);
 
   /* Button */
   --primary-button-color: rgb(16, 96, 255);
@@ -65,4 +66,32 @@ a {
 
 .main-container .file-container {
   background-color: var(--primary-white-color);
+}
+
+.custom-file {
+  margin: 0.5rem 0 0.5rem 0;
+  transition: background-color 0.3s ease;
+}
+
+.file-selected .custom-file-label {
+  background-color: var(--success);
+  color: white;
+}
+
+
+.custom-file-label {
+  background-color: var(--default-hover-background-color);
+  width: 100%;
+  max-width: 100%;
+  cursor: pointer;
+  border-radius: 1rem;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 0.5rem;
+
+  &:hover {
+    background-color: var(--hover-color);
+  }
 }

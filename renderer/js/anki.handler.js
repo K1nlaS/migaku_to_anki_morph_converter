@@ -68,7 +68,7 @@ const getDecks = async () => {
     });
 
   } catch (e) {
-    console.log(`error getting decks: ${e}`);
+    showError(`Error getting decks: ${e}`);
   }
 };
 
@@ -128,7 +128,6 @@ const cardsDuplicateSearch = async (selectedDeck, selectedField) => {
       return !words.some(word => uniqueWordsArray.has(word));
     });
 
-    console.log("Final Filtered Deck completed:", filteredFinalArray);
     return filteredFinalArray;
   } catch (error) {
     console.error("An error occurred:", error);
@@ -142,7 +141,7 @@ const addUnknownWords = async () => {
   const selectedField = fieldSelect.options[fieldSelect.selectedIndex];
 
   if (!filteredArray) {
-    console.log("Please upload Migaku JSON and Anki Morphman data file first.");
+    showError("Please filter Morph's first.");
     return;
   }
 
@@ -188,13 +187,19 @@ const addUnknownWords = async () => {
       await ankiConnectInvoke('addNote', 5, hiraganaParams);
     }
 
-    console.log("Success");
+    showSuccess(finalFilteredArray.length + " morph's added to Anki.");
   } catch (error) {
-    console.error('An error occurred:', error);
+    showError('An error occurred: ' + error);
   }
 
 };
 
 modelSelect.addEventListener("change", getFields);
-anki.addEventListener("click", getDecks);
+anki.addEventListener('click', async () => {
+  // Call the getDecks function to populate the selects
+  await getDecks();
+
+  // Check if the button should be displayed
+  checkSelects();
+});
 addCards.addEventListener("click", addUnknownWords);

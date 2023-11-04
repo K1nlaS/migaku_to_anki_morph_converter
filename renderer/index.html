@@ -3,52 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self';">
+  <script src="../assets/sweetalert2.all.js"></script>
   <script src="js/renderer.js" defer></script>
-  <script src="js/anki.handler.js" defer></script>
+  <script type="module" src="js/anki.handler.js" defer></script>
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/style.css">
   <title>Migaku JSON Converter</title>
 </head>
 <body>
+  <div class="container main-container">
+    <div class="row text-center">
 
-  <div class="main-container">
-
-    <div class="container text-center">
-      <div class="row">
-        <div class="col p-2 file-container">
-          <span class="">Select the Migaku JSON file.</span>
-          <input id="migaku" type="file" class="hidden" />
+      <div class="col-md-6 p-2 file-container">
+        <span>Select the Migaku JSON file:</span>
+        <div class="custom-file" data-target="migaku">
+          <input type="file" class="custom-file-input d-none" id="migaku" accept=".json">
+          <label class="custom-file-label" for="migaku">Choose file</label>
         </div>
+      </div>
 
-        <div class="col p-2 file-container">
-          <span class="">Select the words database .txt file.</span>
-          <input id="data" type="file" class="hidden" />
+      <div class="col-md-6 p-2 file-container">
+        <span>Select the morph's .txt file:</span>
+        <div class="custom-file" data-target="data">
+          <input type="file" class="custom-file-input d-none" id="data" accept=".txt">
+          <label class="custom-file-label" for="data">Choose file</label>
         </div>
+      </div>
 
+    </div>
+
+    <div class="row text-center">
+      <div class="col-md-12 p-2">
+        <input type="button" id="crosscheck" value="Filter Morphs" class="btn btn-primary" />
       </div>
     </div>
-
-    <div class="container text-center">
-      <input type="button" id="crosscheck" value="Start">
-    </div>
-
   </div>
 
   <div class="container text-center">
-    <select id="deckSelect" class="form-select" aria-label="Deck Select"></select>
-    <select id="modelSelect" class="form-select" aria-label="Model Select"></select>
-    <select id="fieldSelect" class="form-select" aria-label="Field Select"></select>
+    <select id="deckSelect" class="form-select my-3" aria-label="Deck Select"></select>
+    <select id="modelSelect" class="form-select my-3" aria-label="Model Select"></select>
+    <select id="fieldSelect" class="form-select my-3" aria-label="Field Select"></select>
 
-    <input type="button" id="anki" value="Get Decks">
-    <input type="button" id="addCards" value="Display">
+    <div class="my-3">
+      <input type="button" id="anki" value="Get Decks" class="btn btn-secondary me-3" />
+      <input type="button" id="addCards" value="Upload Cards" class="btn btn-success" />
+    </div>
   </div>
-
-  </div>
-
-
-
 
   <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="./js/html.handler.js"></script>
 </body>
 </html>
