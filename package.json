@@ -2,16 +2,32 @@
   "name": "migaku_to_anki_morph_converter",
   "productName": "Migaku to Anki Morph Converter",
   "version": "1.0.0",
-  "description": "",
+  "description": "Migakue JSON to Anki cards converter.",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
+  "build": {
+    "productName": "Migaku to Anki Morph Converter",
+    "directories": {
+      "output": "dist"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "electron": "^26.2.1",
-    "toastify-js": "^1.12.0"
+  "devDependencies": {
+    "electron-builder": "^24.6.4",
+    "electron": "^26.2.1"
   }
 }

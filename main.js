@@ -2,7 +2,7 @@ const path = require("path");
 const { app, BrowserWindow, Menu } = require("electron");
 
 const isMac = process.platform === "darwin";
-const isDev = process.env.NODE_ENV !== "development";
+const isDev = !app.isPackaged;
 
 const createMainWindow = () => {
   const mainWindow = new BrowserWindow({
